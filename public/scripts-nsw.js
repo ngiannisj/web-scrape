@@ -13,30 +13,10 @@ function renderTable(filteredData) {
 	 window.gridInstance = new gridjs.Grid({
 		columns: [
 			"Title",
-			"Summary",
-			"Amount",
-			"Amount Max",
-			"Amount Text",
-			"Audience",
-			"Subtype",
-			"Ongoing",
-			"Date Start",
-			"URL",
-			"Status",
 			"Date Added to db",
 		],
 		data: filteredData.map((item) => [
 			item.title?.[0] || "",
-			item.field_summary?.[0] || "",
-			item.grant_amount?.[0] || "",
-			item.grant_amount_max?.[0] || "",
-			item.grant_amount_text?.[0] || "",
-			item.grant_audience?.[0] || "",
-			item.subtype?.[0] || "",
-			item.grant_is_ongoing?.[0] ? "Yes" : "No",
-			item.grant_date_range?.[0]?.startDate || "",
-			item.url?.[0] || "",
-			item.status?.[0] ? "Active" : "Inactive",
 			item.added_to_mongo_at
 				? new Date(item.added_to_mongo_at).toLocaleDateString("en-GB")
 				: "",
