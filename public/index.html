@@ -1,31 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Grants Table with Date Filter</title>
-    <link href="https://unpkg.com/gridjs/dist/theme/mermaid.min.css" rel="stylesheet" />
-    <style>
-      #filter-bar {
-        margin-bottom: 1em;
-      }
-      label {
-        margin-right: 0.5em;
-      }
-    </style>
+    <link rel="stylesheet" href="styles.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Grid.js Theme -->
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/gridjs/dist/theme/mermaid.min.css"
+    />
   </head>
   <body>
-    <div id="filter-bar">
-      <label for="date-filter">Show grants added after:</label>
-      <input type="date" id="date-filter" />
-      <button id="apply-filter">Apply Filter</button>
-    </div>
-    <div id="nsw-grants-table-container"></div>
-    <br />
-    <br />
-    <div id="grant-connect-table-container"></div>
+    <main>
+      <header>
+        <h1>Grants</h1>
+      </header>
+
+      <section id="filter-section">
+        <div id="filter-bar">
+          <label for="date-filter">Show grants added after:</label>
+          <input type="date" id="date-filter" />
+          <button id="apply-filter">Apply Filter</button>
+        </div>
+      </section>
+
+      <section>
+        <h2>NSW Grants</h2>
+        <div id="nsw-grants-table-container"></div>
+      </section>
+
+      <section>
+        <h2>Grant Connect</h2>
+        <div id="grant-connect-table-container"></div>
+      </section>
+    </main>
+
+    <!-- Grid.js -->
     <script src="https://unpkg.com/gridjs/dist/gridjs.umd.js"></script>
+
+    <!-- Scripts -->
     <script src="scripts-nsw.js"></script>
     <script src="scripts-grant-connect.js"></script>
   </body>

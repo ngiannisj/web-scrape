@@ -1,0 +1,75 @@
+body {
+	font-family: "Inter", sans-serif;
+	margin: 0;
+	background: #f8fafc;
+	color: #1e293b;
+}
+
+main {
+	max-width: 1400px;
+	margin: 0 auto;
+	padding: 2rem;
+}
+
+header {
+	text-align: center;
+	margin-bottom: 2rem;
+}
+
+h1 {
+	font-size: 2rem;
+	font-weight: 600;
+	color: #0f172a;
+}
+
+#filter-section {
+	margin-bottom: 2rem;
+}
+
+#filter-bar {
+	background: white;
+	padding: 1rem 1.5rem;
+	border-radius: 12px;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 1rem;
+}
+
+label {
+	font-weight: 500;
+}
+
+input[type="date"] {
+	padding: 0.4rem 0.6rem;
+	border: 1px solid #cbd5e1;
+	border-radius: 6px;
+	font-size: 0.9rem;
+}
+
+button {
+	background: #2563eb;
+	border: none;
+	padding: 0.5rem 1rem;
+	border-radius: 6px;
+	font-size: 0.9rem;
+	cursor: pointer;
+	transition: background 0.2s ease-in-out;
+}
+
+#apply-filter {
+	color: white;
+}
+
+button:hover {
+	background: #1d4ed8;
+}
+
+section > div {
+	background: white;
+	border-radius: 12px;
+	padding: 1rem;
+	margin-bottom: 2rem;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
