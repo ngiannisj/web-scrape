@@ -1,6 +1,16 @@
 import requests
 from bs4 import BeautifulSoup
-import csv
+from pymongo.mongo_client import MongoClient
+from pymongo.server_api import ServerApi
+from pymongo.errors import BulkWriteError
+from datetime import datetime, timezone
+from dotenv import load_dotenv
+import os
+
+# Load environment variables from .env file
+load_dotenv()
+mongoUri = os.getenv("MONGO_URI")
+client = MongoClient(mongoUri, server_api=ServerApi('1'))
 
 # Define the URL of the webpage to scrape
 url = "https://www.grants.gov.au/public_data/rss/rss.xml"
@@ -37,7 +47,7 @@ if len(sanitizedUrlArr) > 0:
                     grantDetailTitle = detailDiv.find("span").get_text()
                     grantDetailDescription = detailDiv.find("div", class_="list-desc-inner").get_text(strip=True, separator=" ")
                     grantDetailsObj[grantDetailTitle] = grantDetailDescription
-                
+                grantDetailsObj["added_to_mongo_at"] = datetime.now(timezone.utc).isoformat()
                 grantListArr.append(grantDetailsObj)
 
 # Get a list of all property names in grantListArr objects
@@ -51,9 +61,19 @@ if 'GO ID:' in property_names:
     property_names.remove('GO ID:')
     property_names.insert(0, 'GO ID:')
 
-# Write the grant details to a CSV file
-with open("grant-connect.csv", "w", newline="", encoding="utf-8") as csvfile:
-    writer = csv.DictWriter(csvfile, fieldnames=property_names)
-    writer.writeheader()
-    for grant in grantListArr:
-        writer.writerow(grant)
+# Insert grant details into MongoDB
+db = client["grants_db"]  # You can change the database name if you want
+collection = db["grant_connect"]  # You can change the collection name if you want
+
+# Ensure unique index on 'GO ID:'
+collection.create_index("GO ID:", unique=True)
+
+if grantListArr:
+    try:
+        result = collection.insert_many(grantListArr, ordered=False)
+        print(f"Inserted {len(result.inserted_ids)} new grants into MongoDB.")
+    except BulkWriteError as bwe:
+        inserted = bwe.details.get('nInserted', 0)
+        print(f"Inserted {inserted} new grants. Some were duplicates and skipped.")
+else:
+    print("No grants found to insert.")
