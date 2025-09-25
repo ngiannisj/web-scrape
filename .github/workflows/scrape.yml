@@ -23,9 +23,9 @@ jobs:
       - name: Run nsw-grants.py
         env:
           MONGO_URI: ${{ secrets.MONGO_URI }}
-        run: python nsw-grants.py
+        run: python web-scrape-scripts/nsw-grants.py
 
       - name: Run grant-connect.py
         env:
           MONGO_URI: ${{ secrets.MONGO_URI }}
-        run: python grant-connect.py
+        run: python web-scrape-scripts/grant-connect.py
