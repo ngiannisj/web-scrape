@@ -8,6 +8,7 @@
   "dependencies": {
     "dotenv": "^17.2.2",
     "express": "~4.16.1",
+    "gridjs": "^6.2.0",
     "mongodb": "^6.20.0"
   }
 }

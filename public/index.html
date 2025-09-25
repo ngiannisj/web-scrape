@@ -4,19 +4,29 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>HTML 5 Boilerplate</title>
+    <title>Grants Table with Date Filter</title>
+    <link href="https://unpkg.com/gridjs/dist/theme/mermaid.min.css" rel="stylesheet" />
+    <style>
+      #filter-bar {
+        margin-bottom: 1em;
+      }
+      label {
+        margin-right: 0.5em;
+      }
+    </style>
   </head>
   <body>
-<script>
-    fetch('/api/data')
-        .then(response => response.json())
-        .then(data => {
-            console.log('Fetched data:', data);
-            // You can add code here to display data on the page if needed
-        })
-        .catch(error => {
-            console.error('Error fetching data:', error);
-        });
-</script>  
-</body>
+    <div id="filter-bar">
+      <label for="date-filter">Show grants added after:</label>
+      <input type="date" id="date-filter" />
+      <button id="apply-filter">Apply Filter</button>
+    </div>
+    <div id="nsw-grants-table-container"></div>
+    <br />
+    <br />
+    <div id="grant-connect-table-container"></div>
+    <script src="https://unpkg.com/gridjs/dist/gridjs.umd.js"></script>
+    <script src="scripts-nsw.js"></script>
+    <script src="scripts-grant-connect.js"></script>
+  </body>
 </html>
