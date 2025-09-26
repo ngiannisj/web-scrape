@@ -47,6 +47,7 @@ for fields in fields_array:
 
     # Add timestamp for when entry is added
     fields['added_to_mongo_at'] = datetime.now(timezone.utc).isoformat()
+    fields['link'] = "https://www.nsw.gov.au" + fields['url'][0] if 'url' in fields else None
 
 # Insert grant details into MongoDB
 db = client["grants_db"]

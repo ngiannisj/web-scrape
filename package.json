@@ -3,12 +3,16 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node index.js"
+    "start": "node index.js",
+    "build": "esbuild build/client.ts --bundle --minify --sourcemap=inline --outfile=public/script.min.js"
   },
   "dependencies": {
     "dotenv": "^17.2.2",
     "express": "~4.16.1",
     "gridjs": "^6.2.0",
     "mongodb": "^6.20.0"
+  },
+  "devDependencies": {
+    "esbuild": "0.25.10"
   }
 }
