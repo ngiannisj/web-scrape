@@ -33,6 +33,7 @@ function renderTableConnect(filteredData) {
 
 // Filter logic
 document.getElementById("apply-filter").addEventListener("click", function () {
+	document.querySelector(".media_gif__MBeQG").style.display = "block";
   const fromValue = document.getElementById("date-from").value;
   const toValue = document.getElementById("date-to").value;
 
