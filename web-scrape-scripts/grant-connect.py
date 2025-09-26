@@ -50,6 +50,7 @@ if len(sanitizedUrlArr) > 0:
                     grantDetailsObj[grantDetailTitle] = grantDetailDescription
                 grantDetailsObj["added_to_mongo_at"] = datetime.now(timezone.utc).isoformat()
                 grantDetailsObj["title"] = titleDiv.get_text(strip=True, separator=" ")
+                grantDetailsObj["link"] = link
                 grantListArr.append(grantDetailsObj)
 
 # Get a list of all property names in grantListArr objects

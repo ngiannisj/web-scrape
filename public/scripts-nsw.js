@@ -16,7 +16,11 @@ function renderTable(filteredData) {
 			"Date Added to db",
 		],
 		data: filteredData.map((item) => [
-			item.title?.[0] || "",
+			gridjs.html(
+				`<a href="https://www.nsw.gov.au${item.url?.[0] || '#'}" target="_blank" rel="noopener noreferrer">
+					${item.title?.[0] || ""}
+				</a>`
+			),
 			item.added_to_mongo_at
 				? new Date(item.added_to_mongo_at).toLocaleDateString("en-GB")
 				: "",
@@ -29,18 +33,32 @@ function renderTable(filteredData) {
 
 // Filter logic
 document.getElementById("apply-filter").addEventListener("click", function () {
-	const dateValue = document.getElementById("date-filter").value;
-	if (!dateValue) {
-		renderTable(allData);
-		return;
-	}
-	const filterDate = new Date(dateValue);
-	const filtered = allData.filter((item) => {
-		// Adjust this if your date field is named differently
-		const dateAdded = new Date(item.added_to_mongo_at);
-		return dateAdded >= filterDate;
-	});
-	renderTable(filtered);
+  const fromValue = document.getElementById("date-from").value;
+  const toValue = document.getElementById("date-to").value;
+
+  if (!fromValue && !toValue) {
+    renderTable(allData);
+    return;
+  }
+
+  const fromDate = fromValue ? new Date(fromValue) : null;
+  const toDate = toValue ? new Date(toValue) : null;
+
+  const filtered = allData.filter((item) => {
+    const dateAdded = new Date(item.added_to_mongo_at);
+
+    if (fromDate && dateAdded < fromDate) return false;
+    if (toDate) {
+      // add 1 day to include the selected "to" date fully
+      const toDateInclusive = new Date(toDate);
+      toDateInclusive.setDate(toDateInclusive.getDate() + 1);
+      if (dateAdded >= toDateInclusive) return false;
+    }
+
+    return true;
+  });
+
+  renderTable(filtered);
 });
 
 // Initial fetch and render
