@@ -35,6 +35,8 @@ private renderTable(data: any[]) {
 	const tableContainerEl = document.getElementById(this.tableContainerId);
 	if (!tableContainerEl) return;
 
+	tableContainerEl.innerHTML = ""; // Clear existing content
+
 	// Destroy existing grid if present
 	if (this.grid) {
 		this.grid.destroy();
