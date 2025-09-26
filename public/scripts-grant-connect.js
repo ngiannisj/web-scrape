@@ -12,11 +12,11 @@ function renderTableConnect(filteredData) {
 
 	window.gridInstanceConnect = new gridjs.Grid({
 		columns: [
-			"GO ID",
+			"Title",
 			"Date Added to db",
 		],
 		data: filteredData.map((item) => [
-			item["GO ID:"] || "",
+			item["title"] || "",
 			item.added_to_mongo_at
 				? new Date(item.added_to_mongo_at).toLocaleDateString("en-GB")
 				: "",

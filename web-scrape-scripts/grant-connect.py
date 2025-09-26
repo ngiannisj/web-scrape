@@ -42,12 +42,14 @@ if len(sanitizedUrlArr) > 0:
             if grantResponse.status_code == 200:
                 # Get grant details
                 grantSoup = BeautifulSoup(grantResponse.content, "html.parser")
+                titleDiv = grantSoup.find('p', attrs={'class': 'font20', 'role': 'heading'})
                 detailDivArr = grantSoup.find_all("div", class_="list-desc")
                 for detailDiv in detailDivArr:
                     grantDetailTitle = detailDiv.find("span").get_text()
                     grantDetailDescription = detailDiv.find("div", class_="list-desc-inner").get_text(strip=True, separator=" ")
                     grantDetailsObj[grantDetailTitle] = grantDetailDescription
                 grantDetailsObj["added_to_mongo_at"] = datetime.now(timezone.utc).isoformat()
+                grantDetailsObj["title"] = titleDiv.get_text(strip=True, separator=" ")
                 grantListArr.append(grantDetailsObj)
 
 # Get a list of all property names in grantListArr objects
@@ -56,17 +58,17 @@ for grant in grantListArr:
     property_names.update(grant.keys())
 property_names = list(property_names)
 
-# Move 'GO ID:' to the front if it exists
-if 'GO ID:' in property_names:
-    property_names.remove('GO ID:')
-    property_names.insert(0, 'GO ID:')
+# Move 'title' to the front if it exists
+if 'title' in property_names:
+    property_names.remove('title')
+    property_names.insert(0, 'title')
 
 # Insert grant details into MongoDB
 db = client["grants_db"]  # You can change the database name if you want
 collection = db["grant_connect"]  # You can change the collection name if you want
 
-# Ensure unique index on 'GO ID:'
-collection.create_index("GO ID:", unique=True)
+# Ensure unique index on 'title'
+collection.create_index("title", unique=True)
 
 if grantListArr:
     try:
