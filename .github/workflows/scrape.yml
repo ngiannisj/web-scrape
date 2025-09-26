@@ -22,12 +22,32 @@ jobs:
           python -m pip install --upgrade pip
           pip install requests beautifulsoup4 pymongo python-dotenv lxml
 
+      - name: Run grant-connect.py
+        env:
+          MONGO_URI: ${{ secrets.MONGO_URI }}
+        run: python web-scrape-scripts/grant-connect.py
+
       - name: Run nsw-grants.py
         env:
           MONGO_URI: ${{ secrets.MONGO_URI }}
         run: python web-scrape-scripts/nsw-grants.py
 
-      - name: Run grant-connect.py
+      - name: Run vic-grants.py
         env:
           MONGO_URI: ${{ secrets.MONGO_URI }}
-        run: python web-scrape-scripts/grant-connect.py
+        run: python web-scrape-scripts/vic-grants.py
+
+      - name: Run vic-business-grants.py
+        env:
+          MONGO_URI: ${{ secrets.MONGO_URI }}
+        run: python web-scrape-scripts/vic-business-grants.py
+
+      - name: Run qld-grants.py
+        env:
+          MONGO_URI: ${{ secrets.MONGO_URI }}
+        run: python web-scrape-scripts/qld-grants.py
+
+      - name: Run nt-grants.py
+        env:
+          MONGO_URI: ${{ secrets.MONGO_URI }}
+        run: python web-scrape-scripts/nt-grants.py
