@@ -53,7 +53,7 @@ private renderTable(data: any[]) {
 				</a>`
 			),
 			item.added_to_mongo_at
-				? new Date(item.added_to_mongo_at).toLocaleDateString("en-GB")
+				? new Date(item.added_to_mongo_at).toLocaleDateString("en-AU")
 				: "",
 		]),
 		search: true,
@@ -65,26 +65,41 @@ private renderTable(data: any[]) {
 }
 
 	public filterByDate(fromDate: Date | null, toDate: Date | null) {
-		if (!fromDate && !toDate) {
-			this.renderTable(this.allData);
-			return;
-		}
+    if (!fromDate && !toDate) {
+        this.renderTable(this.allData);
+        return;
+    }
 
-		const filtered = this.allData.filter((item) => {
-			const dateAdded = new Date(item.added_to_mongo_at);
-
-			if (fromDate && dateAdded < fromDate) return false;
-
-			if (toDate) {
-				// include full "to" date
-				const toDateInclusive = new Date(toDate);
-				toDateInclusive.setDate(toDateInclusive.getDate() + 1);
-				if (dateAdded >= toDateInclusive) return false;
-			}
-
-			return true;
-		});
-
-		this.renderTable(filtered);
+	let fromDateNoTime: Date | null = null;
+	let toDateNoTime: Date | null = null;
+	if (fromDate) {
+		fromDateNoTime = new Date(fromDate);
+		fromDateNoTime.setHours(0, 0, 0, 0);
 	}
+	if (toDate) {
+		toDateNoTime = new Date(toDate);
+		toDateNoTime.setHours(23, 59, 59, 999);
+	}
+
+    const filtered = this.allData.filter((item) => {
+        // Convert UTC date from Mongo to AEST
+		const aestDateString = new Date(item.added_to_mongo_at).toLocaleDateString('en', { timeZone: 'Australia/Sydney' });
+		const aestDate = new Date(aestDateString);
+		console.log("aestDate", aestDate);
+		console.log("fromDate", fromDateNoTime);
+		console.log("toDate", toDateNoTime);
+        // Check if date falls within the range
+        if (fromDateNoTime && toDateNoTime) {
+            return aestDate >= fromDateNoTime && aestDate <= toDateNoTime;
+        } else if (fromDateNoTime) {
+            return aestDate >= fromDateNoTime;
+        } else if (toDateNoTime) {
+            return aestDate <= toDateNoTime;
+        }
+        return true;
+    });
+
+    this.renderTable(filtered);
+}
+
 }
