@@ -3,7 +3,7 @@ name: Scrape Grants
 on:
   workflow_dispatch:
   schedule:
-    - cron: '0 9 * * 1' # Runs at 9:00 AM UTC every Monday
+    - cron: '0 23 * * 6' # Runs at 9:00 AM AEST every Sunday
 
 jobs:
   scrape:
