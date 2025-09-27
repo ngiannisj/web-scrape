@@ -61,3 +61,13 @@ jobs:
         env:
           MONGO_URI: ${{ secrets.MONGO_URI }}
         run: python web-scrape-scripts/act_grants.py
+
+      - name: Run tas_grants.py
+        env:
+          MONGO_URI: ${{ secrets.MONGO_URI }}
+        run: python web-scrape-scripts/tas_grants.py
+
+      - name: Run tas_business_grants.py
+        env:
+          MONGO_URI: ${{ secrets.MONGO_URI }}
+        run: python web-scrape-scripts/tas_business_grants.py

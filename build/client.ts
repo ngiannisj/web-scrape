@@ -43,4 +43,5 @@ grantTableInstances['qld-grants'] = new GrantTable("qld-grants-table-container",
 grantTableInstances['nt-grants'] = new GrantTable("nt-grants-table-container", "nt_grants");
 grantTableInstances['act-grants'] = new GrantTable("act-grants-table-container", "act_grants");
 grantTableInstances['wa-grants'] = new GrantTable("wa-grants-table-container", "wa_grants");
-
+grantTableInstances['tas-grants'] = new GrantTable("tas-grants-table-container", "tas_grants");
+grantTableInstances['tas-business'] = new GrantTable("tas-business-table-container", "tas_business");
