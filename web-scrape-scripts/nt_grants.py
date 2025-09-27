@@ -65,11 +65,31 @@ collection = db["nt_grants"]  # You can change the collection name if you want
 collection.create_index("title", unique=True)
 
 if grantListArr:
-    try:
-        result = collection.insert_many(grantListArr, ordered=False)
-        print(f"Inserted {len(result.inserted_ids)} new grants into MongoDB.")
-    except BulkWriteError as bwe:
-        inserted = bwe.details.get('nInserted', 0)
-        print(f"Inserted {inserted} new grants. Some were duplicates and skipped.")
+    updated_count = 0
+    inserted_count = 0
+    for grant in grantListArr:
+        # Extract added_to_mongo_at separately so we can use $setOnInsert
+        added_at = grant.get("added_to_mongo_at")
+        grant_no_added_at = {k: v for k, v in grant.items() if k != "added_to_mongo_at"}
+
+        result = collection.update_one(
+            {"title": grant["title"]},   # Match by title
+            {
+                "$set": {
+                    **grant_no_added_at,
+                    "last_updated_at": datetime.now(timezone.utc).isoformat()
+                },
+                "$setOnInsert": {"added_to_mongo_at": added_at}
+            },
+            upsert=True
+        )
+
+        if result.matched_count > 0:
+            if result.modified_count > 0:
+                updated_count += 1
+        elif result.upserted_id is not None:
+            inserted_count += 1
+
+    print(f"Inserted {inserted_count} new grants, updated {updated_count} existing grants.")
 else:
-    print("No grants found to insert.")
+    print("No grants found to insert or update.")

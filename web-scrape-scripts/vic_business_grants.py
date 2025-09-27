@@ -43,7 +43,16 @@ if script_tag:
     grants_json = re.sub(r",(\s*[\]}])", r"\1", grants_json)
     grantListArr = json.loads(grants_json)
 
-for grant in grantListArr:
+# Filter out grants with status containing 'closed' (case insensitive)
+filtered_arr = [
+    grant for grant in grantListArr
+    if not (
+        isinstance(grant.get("status"), dict)
+        and "closed" in [s.lower() for s in grant["status"].get("value", [])]
+    )
+]   
+
+for grant in filtered_arr:
     grant['link'] = grant['targetURL'] if 'targetURL' in grant else None
     grant["added_to_mongo_at"] = datetime.now(timezone.utc).isoformat()
 
@@ -65,12 +74,32 @@ collection = db["vic_business"]  # You can change the collection name if you wan
 # Ensure unique index on 'title'
 collection.create_index("title", unique=True)
 
-if grantListArr:
-    try:
-        result = collection.insert_many(grantListArr, ordered=False)
-        print(f"Inserted {len(result.inserted_ids)} new grants into MongoDB.")
-    except BulkWriteError as bwe:
-        inserted = bwe.details.get('nInserted', 0)
-        print(f"Inserted {inserted} new grants. Some were duplicates and skipped.")
+if filtered_arr:
+    updated_count = 0
+    inserted_count = 0
+    for grant in filtered_arr:
+        # Extract added_to_mongo_at separately so we can use $setOnInsert
+        added_at = grant.get("added_to_mongo_at")
+        grant_no_added_at = {k: v for k, v in grant.items() if k != "added_to_mongo_at"}
+
+        result = collection.update_one(
+            {"title": grant["title"]},   # Match by title
+            {
+                "$set": {
+                    **grant_no_added_at,
+                    "last_updated_at": datetime.now(timezone.utc).isoformat()
+                },
+                "$setOnInsert": {"added_to_mongo_at": added_at}
+            },
+            upsert=True
+        )
+
+        if result.matched_count > 0:
+            if result.modified_count > 0:
+                updated_count += 1
+        elif result.upserted_id is not None:
+            inserted_count += 1
+
+    print(f"Inserted {inserted_count} new grants, updated {updated_count} existing grants.")
 else:
-    print("No grants found to insert.")
+    print("No grants found to insert or update.")
