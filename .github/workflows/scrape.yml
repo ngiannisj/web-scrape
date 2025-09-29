@@ -22,50 +22,50 @@ jobs:
           python -m pip install --upgrade pip
           pip install requests beautifulsoup4 pymongo python-dotenv lxml
 
-      - name: Run bga_grants.py
-        env:
-          MONGO_URI: ${{ secrets.MONGO_URI }}
-        run: python web-scrape-scripts/federal/bga_grants.py
+      # - name: Run bga_grants.py
+      #   env:
+      #     MONGO_URI: ${{ secrets.MONGO_URI }}
+      #   run: python web-scrape-scripts/federal/bga_grants.py
 
-      - name: Run grant_connect.py
-        env:
-          MONGO_URI: ${{ secrets.MONGO_URI }}
-        run: python web-scrape-scripts/federal/grant_connect.py
+      # - name: Run grant_connect.py
+      #   env:
+      #     MONGO_URI: ${{ secrets.MONGO_URI }}
+      #   run: python web-scrape-scripts/federal/grant_connect.py
 
-      - name: Run nsw_grants.py
-        env:
-          MONGO_URI: ${{ secrets.MONGO_URI }}
-        run: python web-scrape-scripts/nsw/nsw_grants.py
+      # - name: Run nsw_grants.py
+      #   env:
+      #     MONGO_URI: ${{ secrets.MONGO_URI }}
+      #   run: python web-scrape-scripts/nsw/nsw_grants.py
 
-      - name: Run vic_grants.py
-        env:
-          MONGO_URI: ${{ secrets.MONGO_URI }}
-        run: python web-scrape-scripts/victoria/vic_grants.py
+      # - name: Run vic_grants.py
+      #   env:
+      #     MONGO_URI: ${{ secrets.MONGO_URI }}
+      #   run: python web-scrape-scripts/victoria/vic_grants.py
 
-      - name: Run vic_business_grants.py
-        env:
-          MONGO_URI: ${{ secrets.MONGO_URI }}
-        run: python web-scrape-scripts/victoria/vic_business_grants.py
+      # - name: Run vic_business_grants.py
+      #   env:
+      #     MONGO_URI: ${{ secrets.MONGO_URI }}
+      #   run: python web-scrape-scripts/victoria/vic_business_grants.py
 
-      - name: Run qld_grants.py
-        env:
-          MONGO_URI: ${{ secrets.MONGO_URI }}
-        run: python web-scrape-scripts/queensland/qld_grants.py
+      # - name: Run qld_grants.py
+      #   env:
+      #     MONGO_URI: ${{ secrets.MONGO_URI }}
+      #   run: python web-scrape-scripts/queensland/qld_grants.py
 
-      - name: Run qld_advance.py
-        env:
-          MONGO_URI: ${{ secrets.MONGO_URI }}
-        run: python web-scrape-scripts/queensland/qld_advance.py
+      # - name: Run qld_advance.py
+      #   env:
+      #     MONGO_URI: ${{ secrets.MONGO_URI }}
+      #   run: python web-scrape-scripts/queensland/qld_advance.py
 
-      - name: Run qld_local.py
-        env:
-          MONGO_URI: ${{ secrets.MONGO_URI }}
-        run: python web-scrape-scripts/queensland/qld_local.py
+      # - name: Run qld_local.py
+      #   env:
+      #     MONGO_URI: ${{ secrets.MONGO_URI }}
+      #   run: python web-scrape-scripts/queensland/qld_local.py
 
-      - name: Run nt_grants.py
-        env:
-          MONGO_URI: ${{ secrets.MONGO_URI }}
-        run: python web-scrape-scripts/northern-territory/nt_grants.py
+      # - name: Run nt_grants.py
+      #   env:
+      #     MONGO_URI: ${{ secrets.MONGO_URI }}
+      #   run: python web-scrape-scripts/northern-territory/nt_grants.py
 
       - name: Run nt_business_grants.py
         env:
