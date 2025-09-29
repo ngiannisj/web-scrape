@@ -67,10 +67,11 @@ jobs:
       #     MONGO_URI: ${{ secrets.MONGO_URI }}
       #   run: python web-scrape-scripts/northern-territory/nt_grants.py
 
-      - name: Run nt_business_grants.py
-        env:
-          MONGO_URI: ${{ secrets.MONGO_URI }}
-        run: python web-scrape-scripts/northern-territory/nt_business_grants.py
+      # Temporarily disable nt_business_grants.py due to bot block
+      # - name: Run nt_business_grants.py
+      #   env:
+      #     MONGO_URI: ${{ secrets.MONGO_URI }}
+      #   run: python web-scrape-scripts/northern-territory/nt_business_grants.py
 
       - name: Run nt_directory.py
         env:
