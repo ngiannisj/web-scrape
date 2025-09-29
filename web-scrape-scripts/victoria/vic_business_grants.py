@@ -43,6 +43,10 @@ if script_tag:
     grants_json = re.sub(r",(\s*[\]}])", r"\1", grants_json)
     grantListArr = json.loads(grants_json)
 
+# Raise error and stop execution if no grants found
+if not grantListArr:  # True if list is empty
+    raise ValueError("No grants found on the webpage. The webpage structure may have changed.")
+
 # Filter out grants with status containing 'closed' (case insensitive)
 filtered_arr = [
     grant for grant in grantListArr

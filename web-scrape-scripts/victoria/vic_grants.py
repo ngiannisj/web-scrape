@@ -132,6 +132,10 @@ data = json.loads(content_str)
 
 fields_array = [hit['_source'] for hit in data['hits']['hits']]
 
+# Raise error and stop execution if no grants found
+if not fields_array:  # True if list is empty
+    raise ValueError("No grants found on the webpage. The webpage structure may have changed.")
+
 for fields in fields_array:
     # Add timestamp for when entry is added
     fields['added_to_mongo_at'] = datetime.now(timezone.utc).isoformat()

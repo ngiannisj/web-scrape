@@ -38,8 +38,12 @@ for fields in grantsListArr:
     # Add timestamp for when entry is added
     fields['added_to_mongo_at'] = datetime.now(timezone.utc).isoformat()
     fields['title'] = fields['name'] if 'name' in fields else None
-    fields['link'] = fields['url'] if 'url' in fields else None
+    fields['link'] = "https://www.dpird.wa.gov.au" + fields['url'] if 'url' in fields else None
     fields['status'] = fields['isOpened'] if 'isOpened' in fields else None
+
+# Raise error and stop execution if no grants found
+if not grantsListArr:  # True if list is empty
+    raise ValueError("No grants found on the webpage. The webpage structure may have changed.")
 
 # Keep only objects where status == "Live"
 filtered_grants = [obj for obj in grantsListArr if obj.get("status") == True]

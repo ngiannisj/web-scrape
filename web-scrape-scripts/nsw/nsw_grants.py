@@ -48,6 +48,11 @@ for fields in fields_array:
     fields['added_to_mongo_at'] = datetime.now(timezone.utc).isoformat()
     fields['link'] = "https://www.nsw.gov.au" + fields['url'][0] if 'url' in fields else None
 
+
+# Raise error and stop execution if no grants found
+if not fields_array:  # True if list is empty
+    raise ValueError("No grants found on the webpage. The webpage structure may have changed.")
+
 # Insert grant details into MongoDB
 db = client["grants_db"]
 collection = db["nsw_grants"]

@@ -53,6 +53,10 @@ if len(sanitizedUrlArr) > 0:
                 grantDetailsObj["link"] = link
                 grantListArr.append(grantDetailsObj)
 
+# Raise error and stop execution if no grants found
+if not grantListArr:  # True if list is empty
+    raise ValueError("No grants found on the webpage. The webpage structure may have changed.")
+
 # Get a list of all property names in grantListArr objects
 property_names = set()
 for grant in grantListArr:

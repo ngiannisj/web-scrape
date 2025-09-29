@@ -42,6 +42,10 @@ for resultCard in resultCardHtml:
     grantDetailsObj["added_to_mongo_at"] = datetime.now(timezone.utc).isoformat()
     grantListArr.append(grantDetailsObj)
 
+# Raise error and stop execution if no grants found
+if not grantListArr:  # True if list is empty
+    raise ValueError("No grants found on the webpage. The webpage structure may have changed.")
+
 # Keep only objects where closed == False
 filtered_grants = [obj for obj in grantListArr if obj.get("isClosed") == False]
 

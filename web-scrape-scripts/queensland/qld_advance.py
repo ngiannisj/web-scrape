@@ -29,6 +29,10 @@ for fields in grantsListArr:
     fields.pop("status_color", None)
     fields.pop("show_props", None)
 
+# Raise error and stop execution if no grants found
+if not grantsListArr:  # True if list is empty
+    raise ValueError("No grants found on the webpage. The webpage structure may have changed.")
+
 # Keep only objects where status == "Live"
 filtered_grants = [obj for obj in grantsListArr if obj.get("status") == "Live"]
 

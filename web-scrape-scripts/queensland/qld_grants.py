@@ -22,6 +22,10 @@ response = requests.get(url, headers=headers)
 content_str = response.content.decode('utf-8')
 data = json.loads(content_str)
 
+# Raise error and stop execution if no grants found
+if not data.items():  # True if list is empty
+    raise ValueError("No grants found on the webpage. The webpage structure may have changed.")
+
 def flatten_details(entry: dict) -> dict:
     """Flatten the 'details' object into key:value pairs."""
     details = entry.get("details", {})

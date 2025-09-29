@@ -12,8 +12,6 @@ load_dotenv()
 mongoUri = os.getenv("MONGO_URI")
 client = MongoClient(mongoUri, server_api=ServerApi('1'))
 
-import requests
-
 url = "https://departmentofindustryscienceenergyandresourcesproduxlo9oz8e.org.coveo.com/rest/search/v2?organizationId=departmentofindustryscienceenergyandresourcesproduxlo9oz8e"
 
 headers = {
@@ -304,11 +302,16 @@ payload = {
 }
 
 response = requests.post(url, headers=headers, json=payload)
+
 content_str = response.content.decode('utf-8')
 data = json.loads(content_str)
 
 # Assuming your JSON is stored in a variable called `data`
 results = data.get("results", [])
+
+# Raise error and stop execution if no grants found
+if not results:  # True if list is empty
+    raise ValueError("No grants found on the webpage. The webpage structure may have changed.")
 
 # Extract only the "raw" field
 grantsListArr = [item["raw"] for item in results if "raw" in item]
