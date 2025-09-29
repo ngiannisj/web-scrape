@@ -33,8 +33,6 @@ headers = {
 }
 response = requests.get(url, headers=headers)
 
-print(response.content)
-
 # Get all links for current grants from the XML content
 if response.status_code == 200:
     html_content = response.content
