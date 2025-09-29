@@ -59,7 +59,12 @@ export class GrantTable {
 					? new Date(item.added_to_mongo_at).toLocaleDateString("en-AU")
 					: "",
 			]),
-			search: true,
+			search: {
+				selector: (cell, rowIndex, cellIndex) => {
+				// ✅ return string always
+				return cellIndex === 0 ? String(cell) : "";
+				}
+			},
 			pagination: true,
 			sort: true,
 		});
