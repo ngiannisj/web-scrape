@@ -3,7 +3,7 @@ name: Scrape Grants
 on:
   workflow_dispatch:
   schedule:
-    - cron: '0 23 * * 6' # Runs at 9:00 AM AEST every Sunday
+    - cron: "0 20 * * *" # Runs every day at 6:00 AM AEST
 
 jobs:
   scrape:
@@ -25,54 +25,94 @@ jobs:
       - name: Run bga_grants.py
         env:
           MONGO_URI: ${{ secrets.MONGO_URI }}
-        run: python web-scrape-scripts/bga_grants.py
+        run: python web-scrape-scripts/federal/bga_grants.py
 
       - name: Run grant_connect.py
         env:
           MONGO_URI: ${{ secrets.MONGO_URI }}
-        run: python web-scrape-scripts/grant_connect.py
+        run: python web-scrape-scripts/federal/grant_connect.py
 
       - name: Run nsw_grants.py
         env:
           MONGO_URI: ${{ secrets.MONGO_URI }}
-        run: python web-scrape-scripts/nsw_grants.py
+        run: python web-scrape-scripts/nsw/nsw_grants.py
 
       - name: Run vic_grants.py
         env:
           MONGO_URI: ${{ secrets.MONGO_URI }}
-        run: python web-scrape-scripts/vic_grants.py
+        run: python web-scrape-scripts/victoria/vic_grants.py
 
       - name: Run vic_business_grants.py
         env:
           MONGO_URI: ${{ secrets.MONGO_URI }}
-        run: python web-scrape-scripts/vic_business_grants.py
+        run: python web-scrape-scripts/victoria/vic_business_grants.py
 
       - name: Run qld_grants.py
         env:
           MONGO_URI: ${{ secrets.MONGO_URI }}
-        run: python web-scrape-scripts/qld_grants.py
+        run: python web-scrape-scripts/queensland/qld_grants.py
+
+      - name: Run qld_advance.py
+        env:
+          MONGO_URI: ${{ secrets.MONGO_URI }}
+        run: python web-scrape-scripts/queensland/qld_advance.py
+
+      - name: Run qld_local.py
+        env:
+          MONGO_URI: ${{ secrets.MONGO_URI }}
+        run: python web-scrape-scripts/queensland/qld_local.py
 
       - name: Run nt_grants.py
         env:
           MONGO_URI: ${{ secrets.MONGO_URI }}
-        run: python web-scrape-scripts/nt_grants.py
+        run: python web-scrape-scripts/northern-territory/nt_grants.py
+
+      - name: Run nt_business_grants.py
+        env:
+          MONGO_URI: ${{ secrets.MONGO_URI }}
+        run: python web-scrape-scripts/northern-territory/nt_business_grants.py
+
+      - name: Run nt_directory.py
+        env:
+          MONGO_URI: ${{ secrets.MONGO_URI }}
+        run: python web-scrape-scripts/northern-territory/nt_directory.py
 
       - name: Run act_grants.py
         env:
           MONGO_URI: ${{ secrets.MONGO_URI }}
-        run: python web-scrape-scripts/act_grants.py
+        run: python web-scrape-scripts/act/act_grants.py
 
       - name: Run wa_grants.py
         env:
           MONGO_URI: ${{ secrets.MONGO_URI }}
-        run: python web-scrape-scripts/wa_grants.py
+        run: python web-scrape-scripts/western-australia/wa_grants.py
+
+      - name: Run wa_creative.py
+        env:
+          MONGO_URI: ${{ secrets.MONGO_URI }}
+        run: python web-scrape-scripts/western-australia/wa_creative.py
+
+      - name: Run wa_regional.py
+        env:
+          MONGO_URI: ${{ secrets.MONGO_URI }}
+        run: python web-scrape-scripts/western-australia/wa_regional.py
 
       - name: Run tas_grants.py
         env:
           MONGO_URI: ${{ secrets.MONGO_URI }}
-        run: python web-scrape-scripts/tas_grants.py
+        run: python web-scrape-scripts/tasmania/tas_grants.py
 
       - name: Run tas_business_grants.py
         env:
           MONGO_URI: ${{ secrets.MONGO_URI }}
-        run: python web-scrape-scripts/tas_business_grants.py
+        run: python web-scrape-scripts/tasmania/tas_business_grants.py
+
+      - name: Run sa_business_grants.py
+        env:
+          MONGO_URI: ${{ secrets.MONGO_URI }}
+        run: python web-scrape-scripts/south-australia/sa_business_grants.py
+
+      - name: Run sa_human_services.py
+        env:
+          MONGO_URI: ${{ secrets.MONGO_URI }}
+        run: python web-scrape-scripts/south-australia/sa_human_services.py
