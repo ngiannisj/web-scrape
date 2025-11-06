@@ -12,7 +12,7 @@ load_dotenv()
 mongoUri = os.getenv("MONGO_URI")
 client = MongoClient(mongoUri, server_api=ServerApi('1'))
 
-url = "https://www.vic.gov.au/api/tide/app-search/content-vic-production/elasticsearch/_search"
+url = "https://www.vic.gov.au/api/tide/elasticsearch/elasticsearch_index_production_node/_search"
 
 payload = {
     "query": {
