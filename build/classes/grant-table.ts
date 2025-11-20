@@ -4,7 +4,9 @@ export class GrantTable {
 	private tableContainerId: string;
 	private mongoDbCollection: string;
 	private allData: any[] = [];
+	private currentViewData: any[] = [];
 	private grid: Grid | null = null;
+	private pageLimit: number = 10;
 
 	constructor(
 		tableContainerId: string,
@@ -25,6 +27,8 @@ export class GrantTable {
 				`/api/data?collection=${this.mongoDbCollection}`
 			);
 			this.allData = await response.json();
+			// Keep track of what's currently rendered (initially all data)
+			this.currentViewData = this.allData;
 			this.renderTable(this.allData);
 		} catch (error) {
 			console.error("Error fetching data:", error);
@@ -36,6 +40,9 @@ export class GrantTable {
 		if (!tableContainerEl) return;
 
 		tableContainerEl.innerHTML = ""; // Clear existing content
+
+		// Update current view data (used for CSV export)
+		this.currentViewData = data;
 
 		// Destroy existing grid if present
 		if (this.grid) {
@@ -65,11 +72,24 @@ export class GrantTable {
 				return cellIndex === 0 ? String(cell) : "";
 				}
 			},
-			pagination: true,
+			pagination: {
+				limit: this.pageLimit,
+			},
 			sort: true,
 		});
 
 		this.grid.render(tableContainerEl);
+
+		this.updateCsvDownloadButton();
+	}
+
+	/**
+	 * Update the page limit (rows per page) and re-render the table with current view data.
+	 */
+	public setPageLimit(limit: number) {
+		this.pageLimit = limit;
+		// Re-render with the currently viewed data so pagination takes effect
+		this.renderTable(this.currentViewData);
 	}
 
 	public filterByDate(fromDate: Date | null, toDate: Date | null) {
@@ -107,6 +127,67 @@ export class GrantTable {
 			return true;
 		});
 
+		this.currentViewData = filtered;
 		this.renderTable(filtered);
+	}
+
+	private updateCsvDownloadButton() {
+		// Remove any existing download button for this container
+		const buttonContainerId = `${this.tableContainerId}-button`;
+		const buttonContainerEl = document.getElementById(buttonContainerId);
+		const existingBtn = buttonContainerEl?.querySelector('.csv-download-btn');
+		if (existingBtn) existingBtn.remove();
+
+		// Create download CSV button
+		const downloadBtn = document.createElement('button');
+		downloadBtn.className = 'csv-download-btn';
+		downloadBtn.type = 'button';
+		downloadBtn.textContent = 'Download CSV';
+		downloadBtn.addEventListener('click', () => {
+			try {
+				const csv = this.convertToCsv(this.currentViewData);
+				const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+				const url = URL.createObjectURL(blob);
+				const a = document.createElement('a');
+				a.href = url;
+				a.download = `${this.mongoDbCollection || 'data'}.csv`;
+				document.body.appendChild(a);
+				a.click();
+				a.remove();
+				URL.revokeObjectURL(url);
+			} catch (err) {
+				console.error('Failed to generate CSV:', err);
+			}
+		});
+
+		// Insert the button before the table content
+		buttonContainerEl?.appendChild(downloadBtn);
+	}
+
+	/**
+	 * Convert the provided data array into a CSV string.
+	 * Exports the same columns shown in the grid: Title, Link, Date Added to db
+	 */
+	private convertToCsv(data: any[]): string {
+		const header = ["Title", "Link", "Date Added to db"];
+		const rows = data.map((item) => {
+			const title = item.title ?? "";
+			const link = item.link ?? "";
+			const date = item.added_to_mongo_at
+				? new Date(item.added_to_mongo_at).toLocaleString("en-AU", { timeZone: "Australia/Sydney" })
+				: "";
+			return [title, link, date];
+		});
+
+		const escape = (v: any) => this.escapeCsvCell(v);
+
+		const csvLines = [header.map(escape).join(","), ...rows.map((r) => r.map(escape).join(","))];
+		return csvLines.join("\r\n");
+	}
+
+	private escapeCsvCell(value: any): string {
+		if (value === null || value === undefined) return '""';
+		const s = String(value).replace(/"/g, '""');
+		return `"${s}"`;
 	}
 }

@@ -77,5 +77,128 @@ section > div {
 	display: flex;
 	gap: .5rem;
 	align-items: center;
+	justify-content: space-between;
 	margin-bottom: 1rem;
+	flex-wrap: wrap;
 }
+
+/* Button container for table-specific controls (e.g. download) */
+[id$="-button"] {
+	display: flex;
+	justify-content: flex-end; /* align controls to the right */
+	align-items: center;
+	margin-bottom: 0.75rem;
+}
+
+/* CSV download button (secondary style) */
+.csv-download-btn {
+ 	background: #ffffff;
+ 	color: #0f172a;
+ 	border: 1px solid #cbd5e1;
+ 	padding: 0.4rem 0.75rem;
+ 	border-radius: 6px;
+ 	font-size: 0.9rem;
+ 	cursor: pointer;
+ 	transition: background 0.15s ease, transform 0.08s ease;
+}
+
+.csv-download-btn:hover {
+ 	background: #f1f5f9;
+ 	transform: translateY(-1px);
+}
+
+/* When the button is appended inside the table container, give it spacing above the grid */
+.table-container .csv-download-btn,
+.csv-download-btn {
+ 	margin-top: 0.5rem;
+}
+
+/* Toggle switch styles (modern appearance) */
+.switch {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	margin-right: 8px;
+}
+.switch .switch-input {
+	/* visually hidden but available to screen readers */
+	position: absolute;
+	opacity: 0;
+	width: 0;
+	height: 0;
+}
+.switch .slider {
+	position: relative;
+	width: 44px;
+	height: 24px;
+	background: #e6eefc;
+	border-radius: 999px;
+	transition: background 0.18s ease;
+	box-shadow: inset 0 1px 2px rgba(16,24,40,0.04);
+}
+.switch .slider::before {
+	content: '';
+	position: absolute;
+	top: 3px;
+	left: 3px;
+	width: 18px;
+	height: 18px;
+	background: white;
+	border-radius: 50%;
+	box-shadow: 0 2px 6px rgba(2,6,23,0.12);
+	transition: transform 0.18s cubic-bezier(.2,.9,.3,1);
+}
+.switch .switch-input:checked + .slider {
+	background: linear-gradient(90deg, #2563eb, #1e40af);
+}
+.switch .switch-input:checked + .slider::before {
+	transform: translateX(20px);
+}
+.switch .label-text {
+	font-size: 0.9rem;
+	color: #0f172a;
+	user-select: none;
+}
+
+/* Make the control keyboard-focus visible */
+.switch .switch-input:focus + .slider {
+	box-shadow: 0 0 0 3px rgba(37,99,235,0.12);
+}
+
+/* Accordion styles for compact filters */
+.filter-accordion-toggle {
+	background: #ffffff;
+	color: #0f172a;
+	border: 1px solid #e6eefc;
+	border-radius: 8px;
+	cursor: pointer;
+}
+
+.filter-accordion-toggle[aria-expanded="true"] {
+	box-shadow: 0 2px 8px rgba(16,24,40,0.06);
+}
+
+.filter-accordion-panel {
+	background: #ffffff;
+	border: 1px solid #eef2ff;
+	border-radius: 10px;
+	padding: 10px;
+	box-shadow: 0 6px 18px rgba(2,6,23,0.06);
+	overflow: hidden;
+	transition: max-height 0.22s ease, opacity 0.18s ease, transform 0.18s ease;
+}
+
+.filter-accordion-panel[hidden] {
+	display: none;
+}
+
+.filter-switches {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px 12px;
+	align-items: center;
+}
+
+/* Make switches more compact inside accordion */
+.switch { gap: 6px; }
+.label-text { font-size: 0.85rem; }

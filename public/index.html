@@ -1,192 +1,296 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Web scrape</title>
-    <link rel="stylesheet" href="styles.css" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap"
-      rel="stylesheet"
-    />
-    <!-- Grid.js Theme -->
-    <link
-      rel="stylesheet"
-      href="https://unpkg.com/gridjs/dist/theme/mermaid.min.css"
-    />
-  </head>
-  <body>
-    <main>
-      <header>
-        <h1>Web Scrape</h1>
-      </header>
 
-      <section id="filter-section">
-        <div id="filter-bar">
-          <label for="date-from">From:</label>
-          <input type="date" id="date-from">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Web scrape</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+  <!-- Grid.js Theme -->
+  <link rel="stylesheet" href="https://unpkg.com/gridjs/dist/theme/mermaid.min.css" />
+</head>
 
-          <label for="date-to">To:</label>
-          <input type="date" id="date-to">
+<body>
+  <main>
+    <header>
+      <h1>Web Scrape</h1>
+    </header>
 
-          <button id="apply-filter">Apply Filter</button>
+    <section id="filter-section">
+      <div id="filter-bar">
+        <!-- Date filters -->
+        <label for="date-from">From:</label>
+        <input type="date" id="date-from">
+        <label for="date-to">To:</label>
+        <input type="date" id="date-to">
+
+        <!-- Results per page -->
+        <label for="results-per-page" style="font-size:12px; margin-left:8px;">Results per table:</label>
+        <select id="results-per-page" style="font-size:12px; padding:4px 6px; margin-right:10px;">
+          <option value="10" selected>10</option>
+          <option value="20">20</option>
+          <option value="50">50</option>
+          <option value="100">100</option>
+        </select>
+
+        <!-- Global search -->
+        <label for="global-search" style="font-size:12px; margin-right:4px;">Search all tables:</label>
+        <input type="text" id="global-search" placeholder="Type to search..." style="font-size:12px; padding:4px 6px; width:150px;">
+
+        <!-- Table toggles -->
+        <div id="section-filters" aria-label="Section filters"
+          style="display:inline-block; margin-left:12px; vertical-align:middle;">
+          <button id="filter-accordion-toggle" class="filter-accordion-toggle" aria-expanded="false"
+            aria-controls="filter-panel" type="button" style="font-size:12px; padding:6px 10px;">Toggle tables▾</button>
         </div>
-      </section>
+        <div id="filter-panel" class="filter-accordion-panel" hidden>
+          <div class="filter-actions" style="margin-bottom:8px;">
+            <button id="select-all" type="button" aria-label="Select all sections" class="csv-download-btn"
+              style="margin-right:8px; font-size:12px; padding:6px 8px;">Select All</button>
+            <button id="deselect-all" type="button" aria-label="Deselect all sections" class="csv-download-btn"
+              style="font-size:12px; padding:6px 8px;">Deselect All</button>
+          </div>
+          <div id="filter-switches" class="filter-switches" aria-live="polite"></div>
+        </div>
+      </div>
+    </section>
 
-      <section>
-        <span class="table-heading-container">
+    <section>
+      <span class="table-heading-container">
+        <div>
           <h2>BGA Grants</h2>
-          <p>(<a href="https://www.business.gov.au/grants-and-programs" target="_blank" rel="noopener noreferrer">https://business.gov.au/grants-and-programs</a>)</p>
-        </span>
-        <div id="bga-grants-table-container"></div>
-      </section>
+          <p>(<a href="https://www.business.gov.au/grants-and-programs" target="_blank"
+              rel="noopener noreferrer">https://business.gov.au/grants-and-programs</a>)</p>
+        </div>
+        <div id="bga-grants-table-container-button"></div>
+      </span>
+      <div id="bga-grants-table-container"></div>
+    </section>
 
-      <section>
-        <span class="table-heading-container">
+    <section>
+      <span class="table-heading-container">
+        <div>
           <h2>Grant Connect</h2>
-          <p>(<a href="https://www.grants.gov.au/Go/List" target="_blank" rel="noopener noreferrer">https://www.grants.gov.au/Go/List</a>)</p>
-        </span>
-        <div id="grant-connect-table-container"></div>
-      </section>
+          <p>(<a href="https://www.grants.gov.au/Go/List" target="_blank"
+              rel="noopener noreferrer">https://www.grants.gov.au/Go/List</a>)</p>
+        </div>
+        <div id="grant-connect-table-container-button"></div>
+      </span>
+      <div id="grant-connect-table-container"></div>
+    </section>
 
-      <section>
-        <span class="table-heading-container">
+    <section>
+      <span class="table-heading-container">
+        <div>
           <h2>NSW Grants</h2>
-          <p>(<a href="https://www.nsw.gov.au/grants-and-funding" target="_blank" rel="noopener noreferrer">https://www.nsw.gov.au/grants-and-funding</a>)</p>
-        </span>
-        <div id="nsw-grants-table-container"></div>
-      </section>
+          <p>(<a href="https://www.nsw.gov.au/grants-and-funding" target="_blank"
+              rel="noopener noreferrer">https://www.nsw.gov.au/grants-and-funding</a>)</p>
+        </div>
+        <div id="nsw-grants-table-container-button"></div>
+      </span>
+      <div id="nsw-grants-table-container"></div>
+    </section>
 
-      <section>
-        <span class="table-heading-container">
+    <section>
+      <span class="table-heading-container">
+        <div>
           <h2>VIC Grants</h2>
-          <p>(<a href="https://www.vic.gov.au/grants-and-programs" target="_blank" rel="noopener noreferrer">https://www.vic.gov.au/grants-and-programs</a>)</p>
-        </span>
-        <div id="vic-grants-table-container"></div>
-      </section>
+          <p>(<a href="https://www.vic.gov.au/grants-and-programs" target="_blank"
+              rel="noopener noreferrer">https://www.vic.gov.au/grants-and-programs</a>)</p>
+        </div>
+        <div id="vic-grants-table-container-button"></div>
+      </span>
+      <div id="vic-grants-table-container"></div>
+    </section>
 
-      <section>
-        <span class="table-heading-container">
+    <section>
+      <span class="table-heading-container">
+        <div>
           <h2>VIC Business</h2>
-          <p>(<a href="https://business.vic.gov.au/grants-and-programs" target="_blank" rel="noopener noreferrer">https://business.vic.gov.au/grants-and-programs</a>)</p>
-        </span>
-        <div id="vic-business-table-container"></div>
-      </section>
+          <p>(<a href="https://business.vic.gov.au/grants-and-programs" target="_blank"
+              rel="noopener noreferrer">https://business.vic.gov.au/grants-and-programs</a>)</p>
+        </div>
+        <div id="vic-business-table-container-button"></div>
+      </span>
+      <div id="vic-business-table-container"></div>
+    </section>
 
-      <section>
-        <span class="table-heading-container">
+    <section>
+      <span class="table-heading-container">
+        <div>
           <h2>QLD Grants</h2>
-          <p>(<a href="https://www.grants.services.qld.gov.au/results" target="_blank" rel="noopener noreferrer">https://www.grants.services.qld.gov.au/results</a>)</p>
-        </span>
-        <div id="qld-grants-table-container"></div>
-      </section>
+          <p>(<a href="https://www.grants.services.qld.gov.au/results" target="_blank"
+              rel="noopener noreferrer">https://www.grants.services.qld.gov.au/results</a>)</p>
+        </div>
+        <div id="qld-grants-table-container-button"></div>
+      </span>
+      <div id="qld-grants-table-container"></div>
+    </section>
 
-      <section>
-        <span class="table-heading-container">
+    <section>
+      <span class="table-heading-container">
+        <div>
           <h2>QLD advance</h2>
-          <p>(<a href="https://advance.qld.gov.au/grants-and-programs" target="_blank" rel="noopener noreferrer">https://advance.qld.gov.au/grants-and-programs</a>)</p>
-        </span>
-        <div id="qld-advance-grants-table-container"></div>
-      </section>
+          <p>(<a href="https://advance.qld.gov.au/grants-and-programs" target="_blank"
+              rel="noopener noreferrer">https://advance.qld.gov.au/grants-and-programs</a>)</p>
+        </div>
+        <div id="qld-advance-grants-table-container-button"></div>
+      </span>
+      <div id="qld-advance-grants-table-container"></div>
+    </section>
 
-      <section>
-        <span class="table-heading-container">
+    <section>
+      <span class="table-heading-container">
+        <div>
           <h2>QLD local</h2>
-          <p>(<a href="https://www.localgovernment.qld.gov.au/for-councils/grants/current-programs" target="_blank" rel="noopener noreferrer">https://www.localgovernment.qld.gov.au/for-councils/grants/current-programs</a>)</p>
-        </span>
-        <div id="qld-local-grants-table-container"></div>
-      </section>
+          <p>(<a href="https://www.localgovernment.qld.gov.au/for-councils/grants/current-programs" target="_blank"
+              rel="noopener noreferrer">https://www.localgovernment.qld.gov.au/for-councils/grants/current-programs</a>)
+          </p>
+        </div>
+        <div id="qld-local-grants-table-container-button"></div>
+      </span>
+      <div id="qld-local-grants-table-container"></div>
+    </section>
 
-      <section>
-        <span class="table-heading-container">
+    <section>
+      <span class="table-heading-container">
+        <div>
           <h2>NT Grants</h2>
-          <p>(<a href="https://grantsnt.nt.gov.au/grants/" target="_blank" rel="noopener noreferrer">https://grantsnt.nt.gov.au/grants/</a>)</p>
-        </span>
-        <div id="nt-grants-table-container"></div>
-      </section>
+          <p>(<a href="https://grantsnt.nt.gov.au/grants/" target="_blank"
+              rel="noopener noreferrer">https://grantsnt.nt.gov.au/grants/</a>)</p>
+        </div>
+        <div id="nt-grants-table-container-button"></div>
+      </span>
+      <div id="nt-grants-table-container"></div>
+    </section>
 
-      <section>
-        <span class="table-heading-container">
-          <h2>NT Business (Need to run scrape script manually)</h2>
-          <p>(<a href="https://nt.gov.au/industry/business-grants-funding" target="_blank" rel="noopener noreferrer">https://nt.gov.au/industry/business-grants-funding</a>)</p>
-        </span>
-        <div id="nt-business-grants-table-container"></div>
-      </section>
+    <section>
+      <span class="table-heading-container">
+        <div>
+          <h2>NT Business</h2>
+          <p>(Need to run scrape script manually)</p>
+          <p>(<a href="https://nt.gov.au/industry/business-grants-funding" target="_blank"
+              rel="noopener noreferrer">https://nt.gov.au/industry/business-grants-funding</a>)</p>
+        </div>
+        <div id="nt-business-grants-table-container-button"></div>
+      </span>
+      <div id="nt-business-grants-table-container"></div>
+    </section>
 
-      <section>
-        <span class="table-heading-container">
-          <h2>NT directory (Need to run scrape script manually)</h2>
-          <p>(<a href="https://nt.gov.au/community/grants-and-volunteers/grants/grants-directory" target="_blank" rel="noopener noreferrer">https://nt.gov.au/community/grants-and-volunteers/grants/grants-directory</a>)</p>
-        </span>
-        <div id="nt-directory-grants-table-container"></div>
-      </section>
+    <section>
+      <span class="table-heading-container">
+        <div>
+          <h2>NT directory</h2>
+          <p>(Need to run scrape script manually)</p>
+          <p>(<a href="https://nt.gov.au/community/grants-and-volunteers/grants/grants-directory" target="_blank"
+              rel="noopener noreferrer">https://nt.gov.au/community/grants-and-volunteers/grants/grants-directory</a>)
+          </p>
+        </div>
+        <div id="nt-directory-grants-table-container-button"></div>
+      </span>
+      <div id="nt-directory-grants-table-container"></div>
+    </section>
 
-      <section>
-        <span class="table-heading-container">
+    <section>
+      <span class="table-heading-container">
+        <div>
           <h2>ACT Grants</h2>
-          <p>(<a href="https://www.act.gov.au/money-and-tax/grants-funding-and-incentives" target="_blank" rel="noopener noreferrer">https://www.act.gov.au/money-and-tax/grants-funding-and-incentives</a>)</p>
-        </span>
-        <div id="act-grants-table-container"></div>
-      </section>
+          <p>(<a href="https://www.act.gov.au/money-and-tax/grants-funding-and-incentives" target="_blank"
+              rel="noopener noreferrer">https://www.act.gov.au/money-and-tax/grants-funding-and-incentives</a>)</p>
+        </div>
+        <div id="act-grants-table-container-button"></div>
+      </span>
+      <div id="act-grants-table-container"></div>
+    </section>
 
-      <section>
-        <span class="table-heading-container">
+    <section>
+      <span class="table-heading-container">
+        <div>
           <h2>WA Grants</h2>
-          <p>(<a href="https://www.wa.gov.au/service/community-services/grants-and-subsidies" target="_blank" rel="noopener noreferrer">https://www.wa.gov.au/service/community-services/grants-and-subsidies</a>)</p>
-        </span>
-        <div id="wa-grants-table-container"></div>
-      </section>
+          <p>(<a href="https://www.wa.gov.au/service/community-services/grants-and-subsidies" target="_blank"
+              rel="noopener noreferrer">https://www.wa.gov.au/service/community-services/grants-and-subsidies</a>)</p>
+        </div>
+        <div id="wa-grants-table-container-button"></div>
+      </span>
+      <div id="wa-grants-table-container"></div>
+    </section>
 
-      <section>
-        <span class="table-heading-container">
+    <section>
+      <span class="table-heading-container">
+        <div>
           <h2>WA Creative</h2>
-          <p>(<a href="https://www.cits.wa.gov.au/funding" target="_blank" rel="noopener noreferrer">https://www.cits.wa.gov.au/funding</a>)</p>
-        </span>
-        <div id="wa-creative-grants-table-container"></div>
-      </section>
+          <p>(<a href="https://www.cits.wa.gov.au/funding" target="_blank"
+              rel="noopener noreferrer">https://www.cits.wa.gov.au/funding</a>)</p>
+        </div>
+        <div id="wa-creative-grants-table-container-button"></div>
+      </span>
+      <div id="wa-creative-grants-table-container"></div>
+    </section>
 
-      <section>
-        <span class="table-heading-container">
+    <section>
+      <span class="table-heading-container">
+        <div>
           <h2>WA Regional</h2>
-          <p>(<a href="https://www.dpird.wa.gov.au/businesses/grants-and-support" target="_blank" rel="noopener noreferrer">https://www.dpird.wa.gov.au/businesses/grants-and-support</a>)</p>
-        </span>
-        <div id="wa-regional-grants-table-container"></div>
-      </section>
+          <p>(<a href="https://www.dpird.wa.gov.au/businesses/grants-and-support" target="_blank"
+              rel="noopener noreferrer">https://www.dpird.wa.gov.au/businesses/grants-and-support</a>)</p>
+        </div>
+        <div id="wa-regional-grants-table-container-button"></div>
+      </span>
+      <div id="wa-regional-grants-table-container"></div>
+    </section>
 
-      <section>
-        <span class="table-heading-container">
+    <section>
+      <span class="table-heading-container">
+        <div>
           <h2>Tas Grants</h2>
-          <p>(<a href="https://www.stategrowth.tas.gov.au/grants_and_funding_opportunities" target="_blank" rel="noopener noreferrer">https://www.stategrowth.tas.gov.au/grants_and_funding_opportunities</a>)</p>
-        </span>
-        <div id="tas-grants-table-container"></div>
-      </section>
+          <p>(<a href="https://www.stategrowth.tas.gov.au/grants_and_funding_opportunities" target="_blank"
+              rel="noopener noreferrer">https://www.stategrowth.tas.gov.au/grants_and_funding_opportunities</a>)</p>
+        </div>
+        <div id="tas-grants-table-container-button"></div>
+      </span>
+      <div id="tas-grants-table-container"></div>
+    </section>
 
-      <section>
-        <span class="table-heading-container">
+    <section>
+      <span class="table-heading-container">
+        <div>
           <h2>Tas Business</h2>
-          <p>(<a href="https://www.business.tas.gov.au/funding" target="_blank" rel="noopener noreferrer">https://www.business.tas.gov.au/funding</a>)</p>
-        </span>
-        <div id="tas-business-table-container"></div>
-      </section>
+          <p>(<a href="https://www.business.tas.gov.au/funding" target="_blank"
+              rel="noopener noreferrer">https://www.business.tas.gov.au/funding</a>)</p>
+        </div>
+        <div id="tas-business-table-container-button"></div>
+      </span>
+      <div id="tas-business-table-container"></div>
+    </section>
 
-      <section>
-        <span class="table-heading-container">
+    <section>
+      <span class="table-heading-container">
+        <div>
           <h2>SA Business</h2>
-          <p>(<a href="https://business.sa.gov.au/" target="_blank" rel="noopener noreferrer">https://business.sa.gov.au/</a>)</p>
-        </span>
-        <div id="sa-business-table-container"></div>
-      </section>
+          <p>(<a href="https://business.sa.gov.au/" target="_blank"
+              rel="noopener noreferrer">https://business.sa.gov.au/</a>)</p>
+        </div>
+        <div id="sa-business-table-container-button"></div>
+      </span>
+      <div id="sa-business-table-container"></div>
+    </section>
 
-      <section>
-        <span class="table-heading-container">
+    <section>
+      <span class="table-heading-container">
+        <div>
           <h2>SA Human Services</h2>
-          <p>(<a href="https://dhs.sa.gov.au/how-we-help/grants" target="_blank" rel="noopener noreferrer">https://dhs.sa.gov.au/how-we-help/grants</a>)</p>
-        </span>
-        <div id="sa-human-services-table-container"></div>
-      </section>
-    </main>
+          <p>(<a href="https://dhs.sa.gov.au/how-we-help/grants" target="_blank"
+              rel="noopener noreferrer">https://dhs.sa.gov.au/how-we-help/grants</a>)</p>
+        </div>
+        <div id="sa-human-services-table-container-button"></div>
+      </span>
+      <div id="sa-human-services-table-container"></div>
+    </section>
+  </main>
 
-    <!-- Scripts -->
-    <script src="script.min.js"></script>
-  </body>
+  <!-- Scripts -->
+  <script src="script.min.js"></script>
+</body>
+
 </html>
