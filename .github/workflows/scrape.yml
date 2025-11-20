@@ -25,96 +25,115 @@ jobs:
       - name: Run bga_grants.py
         env:
           MONGO_URI: ${{ secrets.MONGO_URI }}
+        continue-on-error: true
         run: python web-scrape-scripts/federal/bga_grants.py
 
       - name: Run grant_connect.py
         env:
           MONGO_URI: ${{ secrets.MONGO_URI }}
+        continue-on-error: true
         run: python web-scrape-scripts/federal/grant_connect.py
 
       - name: Run nsw_grants.py
         env:
           MONGO_URI: ${{ secrets.MONGO_URI }}
+        continue-on-error: true
         run: python web-scrape-scripts/nsw/nsw_grants.py
 
       - name: Run vic_grants.py
         env:
           MONGO_URI: ${{ secrets.MONGO_URI }}
+        continue-on-error: true
         run: python web-scrape-scripts/victoria/vic_grants.py
 
       - name: Run vic_business_grants.py
         env:
           MONGO_URI: ${{ secrets.MONGO_URI }}
+        continue-on-error: true
         run: python web-scrape-scripts/victoria/vic_business_grants.py
 
       - name: Run qld_grants.py
         env:
           MONGO_URI: ${{ secrets.MONGO_URI }}
+        continue-on-error: true
         run: python web-scrape-scripts/queensland/qld_grants.py
 
       - name: Run qld_advance.py
         env:
           MONGO_URI: ${{ secrets.MONGO_URI }}
+        continue-on-error: true
         run: python web-scrape-scripts/queensland/qld_advance.py
 
       - name: Run qld_local.py
         env:
           MONGO_URI: ${{ secrets.MONGO_URI }}
+        continue-on-error: true
         run: python web-scrape-scripts/queensland/qld_local.py
 
       - name: Run nt_grants.py
         env:
           MONGO_URI: ${{ secrets.MONGO_URI }}
+        continue-on-error: true
         run: python web-scrape-scripts/northern-territory/nt_grants.py
 
       # Temporarily disable nt_business_grants.py due to bot
       # - name: Run nt_business_grants.py
       #   env:
       #     MONGO_URI: ${{ secrets.MONGO_URI }}
+      #   continue-on-error: true
       #   run: python web-scrape-scripts/northern-territory/nt_business_grants.py
 
       # Temporarily disable nt_directory.py due to bot
       # - name: Run nt_directory.py
       #   env:
       #     MONGO_URI: ${{ secrets.MONGO_URI }}
+      #   continue-on-error: true
       #   run: python web-scrape-scripts/northern-territory/nt_directory.py
 
       - name: Run act_grants.py
         env:
           MONGO_URI: ${{ secrets.MONGO_URI }}
+        continue-on-error: true
         run: python web-scrape-scripts/act/act_grants.py
 
       - name: Run wa_grants.py
         env:
           MONGO_URI: ${{ secrets.MONGO_URI }}
+        continue-on-error: true
         run: python web-scrape-scripts/western-australia/wa_grants.py
 
       - name: Run wa_creative.py
         env:
           MONGO_URI: ${{ secrets.MONGO_URI }}
+        continue-on-error: true
         run: python web-scrape-scripts/western-australia/wa_creative.py
 
       - name: Run wa_regional.py
         env:
           MONGO_URI: ${{ secrets.MONGO_URI }}
+        continue-on-error: true
         run: python web-scrape-scripts/western-australia/wa_regional.py
 
       - name: Run tas_grants.py
         env:
           MONGO_URI: ${{ secrets.MONGO_URI }}
+        continue-on-error: true
         run: python web-scrape-scripts/tasmania/tas_grants.py
 
       - name: Run tas_business_grants.py
         env:
           MONGO_URI: ${{ secrets.MONGO_URI }}
+        continue-on-error: true
         run: python web-scrape-scripts/tasmania/tas_business_grants.py
 
       - name: Run sa_business_grants.py
         env:
           MONGO_URI: ${{ secrets.MONGO_URI }}
+        continue-on-error: true
         run: python web-scrape-scripts/south-australia/sa_business_grants.py
 
       - name: Run sa_human_services.py
         env:
           MONGO_URI: ${{ secrets.MONGO_URI }}
+        continue-on-error: true
         run: python web-scrape-scripts/south-australia/sa_human_services.py
